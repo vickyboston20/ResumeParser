@@ -33,8 +33,8 @@ python cli.py -d <resume_directory_path>
 
 * For running GUI execute:
 
-# python manage.py makemigrations
+python manage.py makemigrations
 
-# python manage.py migrate
+python manage.py migrate
 
-# python manage.py runserver
+python manage.py runserver
