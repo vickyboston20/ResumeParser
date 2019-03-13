@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from resume_parser import resume_parser
+from djangotest import resume_parser
 from .models import Resume, UploadResumeModelForm
 from django.contrib import messages
 from django.conf import settings
@@ -19,7 +19,7 @@ def homepage(request):
                     # saving the file
                     resume = Resume(resume=file)
                     resume.save()
-                    
+
                     # extracting resume entities
                     parser = resume_parser.ResumeParser(os.path.join(settings.MEDIA_ROOT, resume.resume.name))
                     data = parser.get_extracted_data()
@@ -33,13 +33,13 @@ def homepage(request):
                     resume.save()
                 except IntegrityError:
                     messages.warning(request, 'Duplicate resume found:', file.name)
-                    return redirect('homepage')
+                    return redirect('home')
             resumes = Resume.objects.all()
             messages.success(request, 'Resumes uploaded!')
-            return render(request, 'base.html', {'resumes': resumes})
+            return render(request, 'home_page.html', {'resumes': resumes})
     else:
         form = UploadResumeModelForm()
-    return render(request, 'base.html', {'form': form})
+    return render(request, 'home_page.html', {'form': form})
 
 def get_education(education):
     '''
